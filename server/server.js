@@ -14,34 +14,34 @@ app.use(express.static(path.join(__dirname, '/../public')));
 // Review Service Routes
 app.get('/api/products/reviews/:id/:count/:sort', (req, res) => {
   // res.redirect(`http://localhost:3005${req.url}`);
-  axios.get(`http://localhost:3005${req.url}`)
+  axios.get(`http://ec2-34-212-140-67.us-west-2.compute.amazonaws.com:80${req.url}`)
       .then(({ data }) => res.send(data))
       .catch((err) => (err));
 });
 app.get('/api/products/reviews/avg/:item', (req, res) => {
   //  res.redirect(`http://localhost:3005${req.url}`);
-   axios.get(`http://localhost:3005${req.url}`)
+   axios.get(`http://ec2-34-212-140-67.us-west-2.compute.amazonaws.com:80${req.url}`)
       .then(({ data }) => res.send(data))
       .catch((err) => (err));
 });
 // Display Service Routes
 app.get('/api/products/:id', async (req, res) => {
   // res.redirect(`http://localhost:3002${req.url}`);
-  axios.get(`http://localhost:3002${req.url}`)
+  axios.get(`http://ec2-34-219-113-81.us-west-2.compute.amazonaws.com:80${req.url}`)
   .then(({ data }) => res.send(data))
   .catch((err) => (err));
 });
 // Questyions Service Routes
 app.get('/api/products/questions/sort/:sort', (req, res) => {
   // res.redirect(`http://localhost:3001${req.url}`);
-  axios.get(`http://localhost:3001${req.url}`)
+  axios.get(`http://ec2-52-12-238-141.us-west-2.compute.amazonaws.com:80${req.url}`)
   .then(({ data }) => res.send(data))
   .catch((err) => (err));
 });
 
 app.get('/api/products/questions/:question_id', (req, res) => {
   // res.redirect(`http://localhost:3001${req.url}`);
-  axios.get(`http://localhost:3001${req.url}`)
+  axios.get(`http://ec2-52-12-238-141.us-west-2.compute.amazonaws.com:80${req.url}`)
   .then(({ data }) => res.send(data))
   .catch((err) => (err));
 });
@@ -49,7 +49,7 @@ app.get('/api/products/questions/:question_id', (req, res) => {
 //Realted Items Routes
 app.get('/api/products/:id/relatedItems', (req, res) => {
   //res.redirect(`http://localhost:3004${req.url}`);
-  axios.get(`http://localhost:3004${req.url}`)
+  axios.get(`http://ec2-54-212-185-70.us-west-2.compute.amazonaws.com:80${req.url}`)
   .then(({ data }) => res.send(data))
   .catch((err) => (err));
 });
