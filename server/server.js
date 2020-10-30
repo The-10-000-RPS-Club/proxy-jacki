@@ -1,61 +1,46 @@
 const express = require('express');
-const bodyParser = require('body-parser');
 const path = require('path');
 const axios = require('axios');
-const compression = require('compression');
 const {display, review, question, related} = require('./url.js');
 
+const PUBLIC_DIR = path.resolve(__dirname, '..', 'public');
 const app = express();
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use(express.static(path.join(__dirname, '/../public')));
+const PORT = 3011;
 
+app.use('/products/:id', express.static(PUBLIC_DIR))
+app.use(express.static(PUBLIC_DIR));
 
-// Review Service Routes
-app.get('/api/products/reviews/:id/:count/:sort', (req, res) => {
-  // res.redirect(`http://localhost:3005${req.url}`);
-  axios.get(`${review}:80${req.url}`)
+app.use((req, res, next) => {
+  res.header('Access-Control-Allow-Origin', '*');
+  next();
+});
+
+app.get('/api/products/:id', (req, res) => {
+  axios.get(`${display}${req.url}`)
+  .then(({ data }) => res.send(data))
+  .catch((err) => (err));
+});
+app.get('/api/reviews/:id', (req, res) => {
+  axios.get(`${review}${req.url}`)
       .then(({ data }) => res.send(data))
       .catch((err) => (err));
 });
-app.get('/api/products/reviews/avg/:item', (req, res) => {
-  //  res.redirect(`http://localhost:3005${req.url}`);
-   axios.get(`${review}:80${req.url}`)
+app.get('/api/reviews/avg/:item', (req, res) => {
+   axios.get(`${review}${req.url}`)
       .then(({ data }) => res.send(data))
       .catch((err) => (err));
 });
-// Display Service Routes
-app.get('/api/products/:id', async (req, res) => {
-  // res.redirect(`http://localhost:3002${req.url}`);
-  axios.get(`${display}:80${req.url}`)
-  .then(({ data }) => res.send(data))
-  .catch((err) => (err));
-});
-// Questyions Service Routes
-app.get('/api/products/questions/sort/:sort', (req, res) => {
-  // res.redirect(`http://localhost:3001${req.url}`);
-  axios.get(`${question}:80${req.url}`)
+app.get('/api/questions/:id', (req, res) => {
+  axios.get(`${question}${req.url}`)
   .then(({ data }) => res.send(data))
   .catch((err) => (err));
 });
 
-app.get('/api/products/questions/:question_id', (req, res) => {
-  // res.redirect(`http://localhost:3001${req.url}`);
-  axios.get(`${question}:80${req.url}`)
+app.get('/api/relatedItems/:product_id', (req, res) => {
+  axios.get(`${related}${req.url}`)
   .then(({ data }) => res.send(data))
   .catch((err) => (err));
 });
-
-//Realted Items Routes
-app.get('/api/products/:id/relatedItems', (req, res) => {
-  //res.redirect(`http://localhost:3004${req.url}`);
-  axios.get(`${related}:80${req.url}`)
-  .then(({ data }) => res.send(data))
-  .catch((err) => (err));
-});
-
-
-const PORT = 3000;
 
 app.listen(PORT, () => {
   console.log(`Listening on Port: ${PORT}`);
